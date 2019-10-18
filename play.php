@@ -1,8 +1,28 @@
 <?php
+session_start();
 $total = 5;
 $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 if (empty($page)) {
+    //$_SESSION['word][1] = "";
+    //$unset($_SESSION['word][2]);
+    session_destroy();
     $page = 1;
+}
+
+// Changing Session Timeout
+// By default the session timeout is 1440 seconds, which is 24 minutes. 
+// One of the most basic examples to change the session timeout is as follows:
+
+// server should keep session data for AT LEAST 1 hour
+// ini_set('session.gc_maxlifetime', 3600);
+
+// each client should remember their session id for EXACTLY 1 hour
+// session_set_cookie_params(3600);
+// Then start the session in order for the changes to apply
+// session_start();
+
+if(isset($_POST['word'])) {
+    $_SESSION['word'][$page-1] = filter_input(INPUT_POST, 'word', FILTER_SANITIZE_STRING);
 }
 
 if ($page > $total) {
